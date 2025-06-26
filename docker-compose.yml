@@ -1,0 +1,27 @@
+services :
+#CONTAINER nODEJS POUR LE BACKEND
+  nodejs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/usr/src/app/src
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    env_file:
+      - .env
+
+  #Container Postgre pour la BDD
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+
+volumes:
+  db_data:

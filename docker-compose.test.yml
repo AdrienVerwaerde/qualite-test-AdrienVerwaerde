@@ -1,0 +1,26 @@
+services:
+  app-test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/usr/src/app/src
+    ports:
+      - "3001:3001"
+    depends_on:
+      - db-test
+    env_file:
+      - .env.test
+    command: npm test
+
+  db-test:
+    image: postgres:latest
+    ports:
+      - "5433:5432"
+    env_file:
+      - .env.test
+    volumes:
+      - db_data_test:/var/lib/postgresql/data
+
+volumes:
+  db_data_test:
